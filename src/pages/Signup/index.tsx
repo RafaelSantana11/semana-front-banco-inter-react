@@ -1,6 +1,6 @@
 import { Wrapper, Background, InputContainer, ButtonContainer } from "./styles";
 import Card from "../../components/Card";
-import background from "../../assets/images/background-login.jpg";
+import background from "../../assets/images/background-login.png";
 import logoInter from "../../assets/images/inter-orange.png";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
