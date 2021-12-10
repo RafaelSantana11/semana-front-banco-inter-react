@@ -13,8 +13,8 @@ Frontend do projeto bootcamp ofertado pelo banco Inter junto com a plataforma Di
 ### Interface Web
 
 <p align="center" style="display: flex; align-items: flex-start; justify-content: center;">
-  <img src="https://imgur.com/Dhbnk5E" width="400px"/>
-  <img src="https://imgur.com/jd4Lwlb" width="400px"/>
+  <img src="https://i.imgur.com/Dhbnk5E.png" width="400px"/>
+  <img src="https://i.imgur.com/jd4Lwlb.png" width="400px"/>
 </p>
 
 ## 🛠 Tecnologias
@@ -41,5 +41,5 @@ Feito por Rafael Santana 👋🏽 [Contato!](https://www.linkedin.com/in/rafael-
 
 [react]: https://pt-br.reactjs.org/
 [styledcomponents]: https://styled-components.com/
-[Vscode]: https://code.visualstudio.com/
+[vscode]: https://code.visualstudio.com/
 [reactrouter]: https://v5.reactrouter.com/web/guides/quick-start
