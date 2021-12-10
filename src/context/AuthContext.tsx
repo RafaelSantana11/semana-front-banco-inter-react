@@ -18,7 +18,15 @@ interface ContexData {
 export const AuthContext = createContext<ContexData>({} as ContexData);
 
 export const AuthProvider: React.FC = ({ children }) => {
-  const [user, setUser] = useState<UserDto>({} as UserDto);
+  const [user, setUser] = useState<UserDto>(() => {
+    const user = localStorage.getItem("@Inter:User");
+
+    if (user) {
+      return JSON.parse(user);
+    }
+
+    return {} as UserDto;
+  });
 
   const userSignIn = async (userData: SignInData) => {
     const { data } = await signIn(userData);
@@ -28,7 +36,7 @@ export const AuthProvider: React.FC = ({ children }) => {
     if (data.accessToken)
       localStorage.setItem("@Inter:Token", data.accessToken);
 
-    return await getCurrentUser();
+    return getCurrentUser();
   };
 
   const userSignUp = async (userData: SignUpData) => {
@@ -37,13 +45,13 @@ export const AuthProvider: React.FC = ({ children }) => {
     if (data.accessToken)
       localStorage.setItem("@Inter:Token", data.accessToken);
 
-    return await getCurrentUser();
+    return getCurrentUser();
   };
 
   const getCurrentUser = async () => {
     const { data } = await me();
     setUser(data);
-
+    localStorage.setItem("@Inter:User", JSON.stringify(user));
     return data as UserDto;
   };
 

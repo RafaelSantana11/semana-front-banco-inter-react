@@ -6,6 +6,8 @@ import {
 } from "./styles";
 import { format } from "date-fns";
 import { FiDollarSign } from "react-icons/fi";
+import { transactions } from "../../../services/resources/pix";
+import { useState, useEffect } from "react";
 
 interface StatementItemProps {
   user: {
@@ -13,7 +15,7 @@ interface StatementItemProps {
     lastName: string;
   };
   value: number;
-  type: "pay" | "received";
+  type: "paid" | "received";
   updatedAt: Date;
 }
 
@@ -36,43 +38,32 @@ const StatementItem = ({
           })}
         </p>
         <p>
-          {type === "pay" ? "Pago a" : "Recebido de"}{" "}
+          {type === "paid" ? "Pago a" : "Recebido de"}{" "}
           <strong>
             {user.firstName} {user.lastName}
           </strong>
         </p>
-        <p>{format(updatedAt, "dd/MM/yyyy 'às' HH:mm:'h'")}</p>
+        <p>{format(new Date(updatedAt), "dd/MM/yyyy 'às' HH:mm:'h'")}</p>
       </StatementItemInfo>
     </StatementItemContainer>
   );
 };
 
 const Statement = () => {
-  const statements: StatementItemProps[] = [
-    {
-      user: {
-        firstName: "Rafael",
-        lastName: "Santana",
-      },
-      value: 250,
-      type: "pay",
-      updatedAt: new Date(),
-    },
-    {
-      user: {
-        firstName: "Kendy",
-        lastName: "Freo",
-      },
-      value: 270,
-      type: "received",
-      updatedAt: new Date(),
-    },
-  ];
+  const [statements, setStatements] = useState<StatementItemProps[]>([]);
+
+  const getAllTransactions = async () => {
+    const { data } = await transactions();
+    setStatements(data);
+  };
+
+  useEffect(() => {
+    getAllTransactions();
+  }, []);
+
   return (
     <StatementContainer>
-      {statements.map((s) => (
-        <StatementItem {...s} />
-      ))}
+      {statements.length > 0 && statements.map((s) => <StatementItem {...s} />)}
     </StatementContainer>
   );
 };

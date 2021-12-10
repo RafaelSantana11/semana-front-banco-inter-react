@@ -9,5 +9,5 @@ export const pay = async (key: string) => {
 };
 
 export const transactions = async () => {
-  return api.get(`/pix/pay/transactions`);
+  return api.get(`/pix/transactions`);
 };
