@@ -5,13 +5,45 @@ import logoInter from "../../assets/images/inter-orange.png";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import useAuth from "../../hooks/useAuth";
 
 const SignUp = () => {
   const navigate = useNavigate();
+  const { userSignUp } = useAuth();
 
-  const handleToSignUp = () => {
-    navigate("/dashboard");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
+  const [message, setMessage] = useState("");
+
+  const handleToSignUp = async () => {
+    if (firstName && lastName && email && password && passwordConfirm) {
+      setMessage("");
+
+      const data = {
+        firstName,
+        lastName,
+        email,
+        password,
+        passwordConfirm,
+      };
+
+      if (password === passwordConfirm) {
+        const response = await userSignUp(data);
+
+        if (response.id) {
+          navigate("/dashboard");
+          return;
+        }
+      }
+    } else {
+      setMessage("Todos os campos são obrigatórios.");
+    }
   };
+
   return (
     <Wrapper>
       <Background image={background} />
@@ -19,19 +51,49 @@ const SignUp = () => {
         <img src={logoInter} width={172} height={61} alt="logo inter" />
 
         <InputContainer>
-          <Input placeholder="NOME" />
-          <Input placeholder="SOBRENOME" />
-          <Input placeholder="EMAIL" />
-          <Input placeholder="SENHA" type="password" />
-          <Input placeholder="CONFIRMAR SENHA" type="password" />
+          <Input
+            placeholder="NOME"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+            required
+          />
+          <Input
+            placeholder="SOBRENOME"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+            required
+          />
+          <Input
+            placeholder="EMAIL"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <Input
+            placeholder="SENHA"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          <Input
+            placeholder="CONFIRMAR SENHA"
+            type="password"
+            value={passwordConfirm}
+            onChange={(e) => setPasswordConfirm(e.target.value)}
+            required
+          />
+
+          {message.length > 0 && <p className="primary-color">{message}</p>}
         </InputContainer>
 
         <ButtonContainer>
-          <Button onClick={handleToSignUp} type="button">
+          <Button type="button" onClick={handleToSignUp}>
             Entrar
           </Button>
+
           <p>
-            Já tem uma conta? <Link to="/"> Entre Já</Link>
+            Já tem uma conta? <Link to="/">Entre já!</Link>
           </p>
         </ButtonContainer>
       </Card>
